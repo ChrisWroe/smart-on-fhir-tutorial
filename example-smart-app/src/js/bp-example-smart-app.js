@@ -11,15 +11,10 @@
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read();
-        $.when(pt).fail(onError);
-        $.when(pt).done(function(pt) {
-            /* Create a condition list */
-            conds = smart.patient.api.search({type: "Condition"})
-        })
-        
-        $.when(conds).fail(onError);
+        conds = smart.patient.api.search({type: "Condition"})
+        $.when(pt,conds).fail(onError);
 
-        $.when(conds).done(function(c){
+        $.when(pt,conds).done(function(c){
           console.log(c);
           c.data.entry.forEach(function(ce) {
             var cx = ce.resource;
